@@ -9,6 +9,7 @@ public class PasswordTest {
 
  
         boolean passwordMatches = PasswordHandler.checkPassword("passwort123", hashedPassword);
+        System.out.println("Das gehashte Passwort ist: " + hashedPassword);
         System.out.println("Passwort stimmt überein: " + passwordMatches); 
     }
 }
