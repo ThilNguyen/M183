@@ -21,22 +21,31 @@ package signup;
 public class Account extends Database {
 
     public void initAccount() {
-         System.out.println("initAccount not implemented");
+        createTables();
+    }
+    
+    public boolean isUsernameTaken(String userName) {
+        return isKeyAvailable("User", "Benutzername", "'" + userName + "'");
     }
 
     public void addAccount(String name, String password) {
-         System.out.println("addAccount not implemented");
+    	if (isUsernameTaken(name)) {
+            System.out.println("Benutzername bereits vergeben!");
+            // Hier können weitere Aktionen, wie eine Fehlermeldung an den Benutzer oder andere Handhabungen, eingefügt werden
+        } else {
+            insert("User", "Benutzername, Passwort", "'" + name + "', '" + PasswordHandler.hashPassword(password) + "'");
+        }
     }
    
 
     public boolean verifyAccount(String userName) {
-        System.out.println("verifyAccount not implemented");
-        return false;
+    	 return isKeyAvailable("User", "Benutzername", "'" + userName + "'");  
     }
 
     public boolean verifyPassword(String userName, String password) {
-        System.out.println("verifyPassword not implemented");
-        return false;
+    	 String storedPassword = getValue("User", "Benutzername", "'" + userName + "'", "Passwort");
+
+         return PasswordHandler.checkPassword(password, storedPassword); // Überprüfung des Passworts
     }
 
 }

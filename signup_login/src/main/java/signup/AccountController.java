@@ -69,62 +69,59 @@ public class AccountController {
         account = new Account();
         account.initAccount();
     }   
-
+    
     @FXML
-    private void onSignUp(ActionEvent event) throws Exception  {
+    private void onSignUp(ActionEvent event) throws Exception {
         // verify name, password and confirmed password
         String name = tfSignUpEmail.getText();
-        if (name.isEmpty()) {
-            lbSignUpMessage.setText("Type in email");
+        String password = pfSignUpPassword.getText();
+        String confirmPassword = pfSignUpConfirmPassword.getText();
+
+        
+        if (!password.equals(confirmPassword)) {
+            lbSignUpMessage.setText("Password and confirm password do not match");
+            return;
+        }
+        
+        if (account.isUsernameTaken(name)) {
+            lbSignUpMessage.setText("Username is already taken. Please choose another one.");
+            // Hier füge Logik hinzu, um auf der Sign-up-Seite zu bleiben
             return;
         }
 
-        String pw = pfSignUpPassword.getText().trim();
-        if (pw.equals("")) {
-            lbSignUpMessage.setText("Enter a plausible password");
-            return;
-        }
+        PasswordHandler passwordHandler = new PasswordHandler();
+        if (passwordHandler.isStrongPassword(password)) {
 
-        if (!pw.equals(pfSignUpConfirmPassword.getText())) {
-            lbSignUpMessage.setText("Password and confirmed password are not identical");
-            return;
-        }
+            // Wenn Passwort stark genug und einzigartig, registriere den Benutzer
+            Account account = new Account();
+            account.addAccount(name, password);
 
-        // verify account 
-        if (account.verifyAccount(name)) {
-            lbSignUpMessage.setText("Email " + name + " has already an account");
-            return;
+            // Wechsel zum Log-In Tab
+            tabPane.getSelectionModel().select(1);
+
+            // Zurücksetzen der Eingabefelder
+            resetSignup();
+        } else {
+            lbSignUpMessage.setText("Password does not meet criteria");
         }
-        
-        // add new account
-        account.addAccount(name, pw);
-        
-        // select tab 'Log In'
-        tabPane.getTabs().get(0).setDisable(true);
-        
-        // reset login and signup
-        resetLogin();
-        resetSignup();
-        
-        // select tab 'Log in'
-        tabPane.getSelectionModel().select(1);
     }
-
+    
     @FXML
     private void onLogin(ActionEvent event) {
-        String name = tfUsername.getText();
-        String pw = pfLoginPassword.getText();
-                        
-        if (account.verifyPassword(name, pw)) {
-            tabPane.getTabs().get(0).setDisable(true);
-            tabPane.getTabs().get(1).setDisable(true);
-            tabPane.getTabs().get(2).setDisable(false);
-            tabPane.getSelectionModel().select(2);
-        } else {
-            lbLoginMessage.setText("'Email' or 'Password' are wrong");
-            tabPane.getTabs().get(0).setDisable(false);
-        }
-    }
+    	 String username = tfUsername.getText();
+         String loginPassword = pfLoginPassword.getText();
+
+         // Überprüfen des Passworts und des Benutzernamens
+         if (account.verifyAccount(username) && account.verifyPassword(username, loginPassword)) {
+             // Anmeldelogik erfolgreich
+             // Wechsel zum Willkommen-Tab nach erfolgreichem Login
+        	 tabPane.getTabs().get(2).setDisable(false);
+             tabPane.getSelectionModel().select(2);
+         } else {
+             // Fehlermeldung bei ungültigen Anmeldeinformationen
+             lbLoginMessage.setText("Invalid username or password");
+         }
+     }
    
     @FXML
     private void onLogout(ActionEvent event) {
@@ -135,7 +132,7 @@ public class AccountController {
         
         // reset login and select tab 'Log in'
         resetLogin();   
-        tabPane.getSelectionModel().select(1);      
+        tabPane.getSelectionModel().select(0);      
     }
     
     private void resetLogin() {

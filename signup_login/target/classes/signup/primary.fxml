@@ -22,7 +22,7 @@
          <content>
             <TabPane fx:id="tabPane" prefHeight="300.0" prefWidth="522.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Step 1: Sign Up">
+                <Tab text="Sign Up">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
@@ -45,8 +45,8 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <Label text="Email" />
-                                          <TextField fx:id="tfSignUpEmail" prefWidth="550.0" promptText="test@gmail.com" GridPane.columnIndex="1" />
+                                          <Label text="Username" />
+                                          <TextField fx:id="tfSignUpEmail" prefWidth="550.0" promptText="username" GridPane.columnIndex="1" />
                                           <Label text="Password" GridPane.rowIndex="1" />
                                           <PasswordField fx:id="pfSignUpPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="Confirm Password" GridPane.rowIndex="2" />
@@ -72,7 +72,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Step 2: Log In">
+                <Tab text="Log In">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -95,7 +95,7 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <Label text="Email" />
+                                          <Label text="Username" />
                                           <Label text="Password" GridPane.rowIndex="1" />
                                           <TextField fx:id="tfUsername" prefWidth="550.0" GridPane.columnIndex="1" />
                                           <Label fx:id="lbLoginMessage" text="Login with your account" GridPane.columnIndex="1" GridPane.rowIndex="3">
@@ -116,7 +116,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab disable="true" text="Step3: Welcome">
+                  <Tab disable="true" text="Welcome">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
